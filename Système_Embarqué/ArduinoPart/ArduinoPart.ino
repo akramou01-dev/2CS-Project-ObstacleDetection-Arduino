@@ -1,24 +1,16 @@
-/*
-   Created by Pi BOTS MakerHub
-
-   Email: pibotsmakerhub@gmail.com
-
-   Github: https://github.com/pibotsmakerhub
-
-   Copyright (c) 2020 Pi BOTS MakerHub
-*/
-
 
 //FirebaseESP8266.h must be included before ESP8266WiFi.h
 #include "FirebaseESP8266.h"  // Install Firebase ESP8266 library
 #include <ESP8266WiFi.h>
-#include <DHT.h>    // Install DHT11 Library and Adafruit Unified Sensor Library
+
 
 
 #define FIREBASE_HOST "projet2cs-4ea6d-default-rtdb.firebaseio.com" //Without http:// or https:// schemes
 #define FIREBASE_AUTH "m1cYJ3G4UpAHVlaJewKjyKjCxkwBCH5FKlcAMdc0"
 #define WIFI_SSID "Souhila"
-#define WIFI_PASSWORD "0657012907"
+#define WIFI_PASSWORD "Badra#1999"
+#include <string.h>
+
 
   //gauche
 const int trigPinG = 2;  //D4
@@ -29,7 +21,7 @@ const int echoPinD = 12;  //D6
 //Avant
 const int trigPinAV = 13;  //D7
 const int echoPinAV = 15;  //D8
-  //Arrière
+  //Arriere
 const int trigPinAR = 5;  //D1
 const int echoPinAR= 4;  //D2
 
@@ -55,10 +47,6 @@ boolean retour=false;
 
 //Define FirebaseESP8266 data object
 FirebaseData firebaseData;
-FirebaseData ledData;
-
-FirebaseJson json;
-
 
 void setup()
 {
@@ -142,7 +130,7 @@ durationAV = pulseIn(echoPinAV, HIGH);
 // Calculating the distance
 distanceAV= durationAV*0.034/2;
 /******************************/
-  //Arrière
+  //Arriere
 digitalWrite(trigPinAR, LOW);
 delayMicroseconds(2);
 digitalWrite(trigPinAR, HIGH);
@@ -162,11 +150,11 @@ distanceAR= durationAR*0.034/2;
   Serial.println(distanceD);
   Serial.print(F("Distance en avant : "));
   Serial.println(distanceAV);
-    Serial.print(F("Distance en arrière : "));
+    Serial.print(F("Distance en Arriere : "));
   Serial.println(distanceAR);
  
 
-  if (Firebase.setFloat(firebaseData, "/FirebaseIOT/distanceGauche", distanceG))
+  if (Firebase.setFloat(firebaseData, "/A0001/FirebaseIOT/distanceGauche", distanceG))
   {
     Serial.println("PASSED");
     Serial.println("PATH: " + firebaseData.dataPath());
@@ -183,7 +171,7 @@ distanceAR= durationAR*0.034/2;
     Serial.println();
   }
 
-  if (Firebase.setFloat(firebaseData, "/FirebaseIOT/distanceDroite",distanceD))
+  if (Firebase.setFloat(firebaseData, "/A0001/FirebaseIOT/distanceDroite",distanceD))
   {
     Serial.println("PASSED");
     Serial.println("PATH: " + firebaseData.dataPath());
@@ -200,7 +188,7 @@ distanceAR= durationAR*0.034/2;
     Serial.println();
   }
   
-  if (Firebase.setFloat(firebaseData, "/FirebaseIOT/distanceAvant", distanceAV))
+  if (Firebase.setFloat(firebaseData, "/A0001/FirebaseIOT/distanceAvant", distanceAV))
   {
     Serial.println("PASSED");
     Serial.println("PATH: " + firebaseData.dataPath());
@@ -218,7 +206,7 @@ distanceAR= durationAR*0.034/2;
   }
 
   
-  if (Firebase.setFloat(firebaseData, "/FirebaseIOT/distanceArrière", distanceAR))
+  if (Firebase.setFloat(firebaseData,"/A0001/FirebaseIOT/distanceArriere", distanceAR))
   {
     Serial.println("PASSED");
     Serial.println("PATH: " + firebaseData.dataPath());
@@ -244,10 +232,10 @@ void GesteUpdate()
     Tourner_Droite=false;
     Avancer_avant=false;
     retour=false;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","false");
   }
   else if (distanceG<50 and distanceD<50 and distanceAV<50)
   {
@@ -255,10 +243,10 @@ void GesteUpdate()
     Tourner_Droite=false;
     Avancer_avant=false;
     retour=true;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","true");
   }
   else if (distanceG<50 and distanceD<50 and distanceAR<50)
   {
@@ -266,10 +254,10 @@ void GesteUpdate()
     Tourner_Droite=false;
     Avancer_avant=true;
     retour=false;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","false");
   }
   else if (distanceG<50 and distanceAV<50 and distanceAR<50)
   {
@@ -277,10 +265,10 @@ void GesteUpdate()
     Tourner_Droite=true;
     Avancer_avant=false;
     retour=false;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","false");
   }
   else if (distanceD<50 and distanceAV<50 and distanceAR<50)
   {
@@ -288,10 +276,10 @@ void GesteUpdate()
     Tourner_Droite=false;
     Avancer_avant=false;
     retour=false;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","false");
   }
   else if (distanceG<50 and distanceD<50)
   {
@@ -299,10 +287,10 @@ void GesteUpdate()
     Tourner_Droite=false;
     Avancer_avant=true;
     retour=true;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","true");
   }
   else if (distanceAV<50 and distanceD<50)
   {
@@ -310,10 +298,10 @@ void GesteUpdate()
     Tourner_Droite=false;
     Avancer_avant=false;
     retour=true;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","true");
   }
   else if (distanceAR<50 and distanceD<50)
   {
@@ -321,10 +309,10 @@ void GesteUpdate()
     Tourner_Droite=false;
     Avancer_avant=true;
     retour=false;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","false");
   }
   else if (distanceG<50 and distanceAV<50)
   {
@@ -332,10 +320,10 @@ void GesteUpdate()
     Tourner_Droite=true;
     Avancer_avant=false;
     retour=true;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","true");
   }
   else if (distanceG<50 and distanceAR<50)
   {
@@ -343,10 +331,10 @@ void GesteUpdate()
     Tourner_Droite=true;
     Avancer_avant=true;
     retour=false;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","false");
   }
   else if (distanceAR<50 and distanceAV<50)
   {
@@ -354,10 +342,10 @@ void GesteUpdate()
     Tourner_Droite=true;
     Avancer_avant=false;
     retour=false;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","false");
   }
   else if (distanceG<50 and distanceAV<50)
   {
@@ -365,10 +353,10 @@ void GesteUpdate()
     Tourner_Droite=true;
     Avancer_avant=false;
     retour=true;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","true");
   }
    else if (distanceG<50 )
   {
@@ -376,10 +364,10 @@ void GesteUpdate()
     Tourner_Droite=true;
     Avancer_avant=true;
     retour=true;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","true");
   }
   else if (distanceD<50 )
   {
@@ -387,10 +375,10 @@ void GesteUpdate()
     Tourner_Droite=false;
     Avancer_avant=true;
     retour=true;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","true");
   }
   else if (distanceAV<50 )
   {
@@ -398,10 +386,10 @@ void GesteUpdate()
     Tourner_Droite=true;
     Avancer_avant=false;
     retour=true;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","false");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","true");
   }
   else if (distanceAR<50 )
   {
@@ -409,9 +397,9 @@ void GesteUpdate()
     Tourner_Droite=true;
     Avancer_avant=true;
     retour=false;
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerGauche","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/TournerDroite","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/AvancerAvant","true");
-    Firebase.setString(firebaseData, "/FirebaseAction/RetourArrière","false");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerGauche","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/TournerDroite","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/AvancerAvant","true");
+    Firebase.setString(firebaseData, "/A0001/FirebaseAction/RetourArriere","false");
   }
 }
