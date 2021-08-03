@@ -45,7 +45,6 @@ export default function Register(props) {
   .on('value', snapshot => {
       if (snapshot.val()!=null) 
       {  storeData(token)
-          console.log('User data: ', snapshot.val().Allumer);
           props.navigation.navigate("Home",{data:token})
         }
       else console.log("Token Error ")
@@ -70,7 +69,7 @@ export default function Register(props) {
          onChangeText={text=>
             {
                 setToken(text)
-                console.log(text)
+                Verifier()
             }
             }
          >
