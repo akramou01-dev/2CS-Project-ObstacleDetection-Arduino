@@ -6,7 +6,6 @@ import Tts from 'react-native-tts';
 export default function Home(props) {
     const data=props.route.params.data;
     const [token,setToken]=useState(data);
-    const [allumer,setAllumer]=useState();
     const [avancerAvant,setAvancerAvant]=useState(false);
     const [retourArriere,setRetourArriere]=useState(false);
     const [tournerDroite,setTournerDroite]=useState(false);
@@ -30,7 +29,6 @@ export default function Home(props) {
               .on('value', snapshot => {
                 console.log('User data: ', snapshot.val());
               
-                setAllumer(snapshot.val().Allumer);
                 setAvancerAvant(snapshot.val().FirebaseAction.AvancerAvant)
                 setRetourArriere(snapshot.val().FirebaseAction.RetourArriere)
                 setTournerDroite(snapshot.val().FirebaseAction.TournerDroite)
@@ -113,8 +111,128 @@ export default function Home(props) {
                         },
                       });
                 }
+                else if (snapshot.val().FirebaseAction.TournerGauche=="true"
+                         && snapshot.val().FirebaseAction.TournerDroite=="false"
+                          && snapshot.val().FirebaseAction.AvancerAvant=="true" 
+                          && snapshot.val().FirebaseAction.RetourArriere=="false")
+                {
+                    Tts.speak('Trouner à Gauche ou bien Avancer en avant ', {
+                        androidParams: {
+                          KEY_PARAM_PAN: 1,
+                          KEY_PARAM_VOLUME: 1,
+                         
+                        },
+                      });
+                }
+                else if (snapshot.val().FirebaseAction.TournerGauche=="true"
+                         && snapshot.val().FirebaseAction.TournerDroite=="false"
+                          && snapshot.val().FirebaseAction.AvancerAvant=="false" 
+                          && snapshot.val().FirebaseAction.RetourArriere=="true")
+                {
+                    Tts.speak('Trouner à Gauche ou bien Revenir en arrière ', {
+                        androidParams: {
+                          KEY_PARAM_PAN: 1,
+                          KEY_PARAM_VOLUME: 1,
+                         
+                        },
+                      });
+                }
+                else if (snapshot.val().FirebaseAction.TournerGauche=="false"
+                         && snapshot.val().FirebaseAction.TournerDroite=="true"
+                          && snapshot.val().FirebaseAction.AvancerAvant=="true" 
+                          && snapshot.val().FirebaseAction.RetourArriere=="false")
+                {
+                    Tts.speak('Trouner à Droite ou bien avancer en avant ', {
+                        androidParams: {
+                          KEY_PARAM_PAN: 1,
+                          KEY_PARAM_VOLUME: 1,
+                         
+                        },
+                      });
+                }
+                else if (snapshot.val().FirebaseAction.TournerGauche=="false"
+                         && snapshot.val().FirebaseAction.TournerDroite=="true"
+                          && snapshot.val().FirebaseAction.AvancerAvant=="false" 
+                          && snapshot.val().FirebaseAction.RetourArriere=="true")
+                {
+                    Tts.speak('Trouner à Droite ou bien revenir en arrière ', {
+                        androidParams: {
+                          KEY_PARAM_PAN: 1,
+                          KEY_PARAM_VOLUME: 1,
+                         
+                        },
+                      });
+                }
+                else if (snapshot.val().FirebaseAction.TournerGauche=="false"
+                && snapshot.val().FirebaseAction.TournerDroite=="false"
+                 && snapshot.val().FirebaseAction.AvancerAvant=="true" 
+                 && snapshot.val().FirebaseAction.RetourArriere=="true")
+       {
+           Tts.speak('avancer en avant ou bien revenir en arrière ', {
+               androidParams: {
+                 KEY_PARAM_PAN: 1,
+                 KEY_PARAM_VOLUME: 1,
                 
+               },
+             });
+       }
+       else if (snapshot.val().FirebaseAction.TournerGauche=="false"
+       && snapshot.val().FirebaseAction.TournerDroite=="true"
+        && snapshot.val().FirebaseAction.AvancerAvant=="true" 
+        && snapshot.val().FirebaseAction.RetourArriere=="true")
+{
+  Tts.speak('Ne tourne pas à gauche ', {
+      androidParams: {
+        KEY_PARAM_PAN: 1,
+        KEY_PARAM_VOLUME: 1,
+       
+      },
+    });
+}
+else if (snapshot.val().FirebaseAction.TournerGauche=="true"
+&& snapshot.val().FirebaseAction.TournerDroite=="false"
+ && snapshot.val().FirebaseAction.AvancerAvant=="true" 
+ && snapshot.val().FirebaseAction.RetourArriere=="true")
+{
+Tts.speak('Ne tourne pas à Droite ', {
+androidParams: {
+ KEY_PARAM_PAN: 1,
+ KEY_PARAM_VOLUME: 1,
 
+},
+});
+}
+else if (snapshot.val().FirebaseAction.TournerGauche=="true"
+&& snapshot.val().FirebaseAction.TournerDroite=="true"
+ && snapshot.val().FirebaseAction.AvancerAvant=="false" 
+ && snapshot.val().FirebaseAction.RetourArriere=="true")
+{
+Tts.speak('N avance pas en avant ', {
+androidParams: {
+ KEY_PARAM_PAN: 1,
+ KEY_PARAM_VOLUME: 1,
+
+},
+});
+}
+else if (snapshot.val().FirebaseAction.TournerGauche=="true"
+&& snapshot.val().FirebaseAction.TournerDroite=="true"
+ && snapshot.val().FirebaseAction.AvancerAvant=="true" 
+ && snapshot.val().FirebaseAction.RetourArriere=="false")
+{
+Tts.speak('Ne Reviens pas en arrière ', {
+androidParams: {
+ KEY_PARAM_PAN: 1,
+ KEY_PARAM_VOLUME: 1,
+
+},
+});
+}
+else {
+  
+  }
+                
+              
               });
         
             // Stop listening for updates when no longer required
